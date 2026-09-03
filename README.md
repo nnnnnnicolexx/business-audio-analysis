@@ -17,7 +17,7 @@ Skill 和本地转写免费，不按录音分钟收费。它不限定于 Codex�
 在能访问 GitHub、读取本地文件并使用终端的 Agent 里说：
 
 ```text
-帮我安装这个 Skill：https://github.com/nicoleyang959/product-discovery-notes/tree/main/skills/business-audio-minutes
+帮我安装这个 Skill：https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes
 
 先检查安装说明、Python 环境和当前 Agent 的技能加载方式。
 把完整的 Skill 目录安装到当前 Agent 可识别的位置，并准备本地转写环境。

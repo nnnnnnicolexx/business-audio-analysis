@@ -17,7 +17,7 @@ The Skill and local transcription are free, with no per-minute transcription fee
 In an Agent that can access GitHub, read local files, and use a terminal, say:
 
 ```text
-Install this Skill: https://github.com/nicoleyang959/product-discovery-notes/tree/main/skills/business-audio-minutes
+Install this Skill: https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes
 
 First, review the installation instructions, check the Python environment,
 and find out how this Agent loads Skills.
