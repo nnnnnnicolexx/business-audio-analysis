@@ -1,0 +1,7 @@
+interface:
+  display_name: "Business Audio Minutes"
+  short_description: "跨平台本地录音转写与业务调研纪要"
+  default_prompt: "Use $business-audio-minutes to analyze the attached recording and produce a detailed Chinese business-research Markdown document."
+policy:
+  allow_implicit_invocation: true
+
