@@ -1,8 +1,8 @@
-# Product Discovery Notes
+# Business Audio Analysis
 
 [简体中文](README.md) · **English**
 
-**A free business research Skill that helps an Agent organize recordings from a product manager's perspective.**
+**A free business audio analysis Skill that helps an Agent organize recordings from a product manager's perspective.**
 
 When I review a business interview, I want to understand how the process actually works, who owns each step, which rules are clear, and what I still need to ask. Those details make it possible to write requirements, map workflows, and discuss solutions.
 
@@ -29,7 +29,7 @@ Run the self-check when finished. Report the actual results and whether
 I need to reload the Skill.
 ```
 
-You can also download or clone this repository first and replace the URL with `<local-repository-path>/skills/business-audio-minutes`. Product Discovery Notes is the project name; the Skill identifier used for installation and invocation remains `business-audio-minutes`.
+You can also download or clone this repository first and replace the URL with `<local-repository-path>/skills/business-audio-minutes`. Business Audio Analysis is the project name; the Skill identifier used for installation and invocation remains `business-audio-minutes`.
 
 Python 3.10–3.12 is recommended. Installing dependencies requires an internet connection, and the recognition model is usually downloaded during the first transcription. Whether the Agent can install it for you depends on its tools and permissions. You can also follow the [manual installation steps](#manual-installation) below.
 
@@ -121,7 +121,7 @@ Automatic activation through natural language depends on the Agent's Skill-loadi
 
 ## What you get
 
-The final output is a Chinese business research document in Markdown. It covers processes, detailed discussions, roles and permissions, field rules, current problems, suggestions, and open questions. Sections without supporting material are omitted or shortened. The notes can support requirements clarification and later PRD work. This English README translates the usage instructions; it does not mean the Skill has been adapted for English output.
+The final output is a Chinese business audio analysis document in Markdown. It covers processes, detailed discussions, roles and permissions, field rules, current problems, suggestions, and open questions. Sections without supporting material are omitted or shortened. The notes can support requirements clarification and later PRD work. This English README translates the usage instructions; it does not mean the Skill has been adapted for English output.
 
 The raw transcription is retained, including timestamped text, raw recognition JSON, and a quality report, so you can check the recording. Follow-up material on the same topic can update the original notes. If a notes directory is configured, the Skill can also copy the Markdown there and verify that the files match.
 
