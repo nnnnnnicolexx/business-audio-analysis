@@ -2,146 +2,250 @@
 
 [简体中文](README.md) · **English**
 
-**A free business audio analysis Skill that helps an Agent organize recordings from a product manager's perspective.**
+**Business audio analysis | Free local transcription**
 
-When I review a business interview, I want to understand how the process actually works, who owns each step, which rules are clear, and what I still need to ask. Those details make it possible to write requirements, map workflows, and discuss solutions.
+Have your Agent review business recordings from a product manager's perspective, organizing processes, responsibilities, field rules, and open questions.
 
-Give your Agent a recording, along with any relevant screenshots or spreadsheets. This Skill transcribes the audio locally, then guides the Agent to organize it by business topic in Markdown. Confirmed decisions, tentative ideas, and the Agent's own suggestions are kept separate.
+The Skill and local transcription are free, with no per-minute transcription fees. Agent subscriptions and model calls are billed separately.
 
-The Skill and local transcription are free, with no per-minute transcription fees. It is not limited to Codex: an Agent that can load Skills, read local files, and run scripts can use its own installation method to load it. Any fees for the Agent or model service are separate.
+![Business Audio Analysis cover concept](assets/cover.png)
 
-[Installation](#installation) · [What it looks for](#what-it-looks-for) · [Usage](#usage) · [What is free](#what-is-free) · [Manual installation](#manual-installation)
+*The cover is an AI-generated concept illustration, not a product interface or a screenshot from a test run.*
 
-## Installation
+[Quick overview](#quick-overview) · [Example](#purchase-approval-example) · [Quick start](#quick-start) · [Cost and privacy](#cost-and-privacy) · [View the Skill](https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes)
 
-In an Agent that can access GitHub, read local files, and use a terminal, say:
+## Quick overview
+
+Give your Agent recordings of business interviews, requirements conversations, or process discussions. Include relevant screenshots and spreadsheets if you have them.
+
+The recording is transcribed on your computer, then the Agent organizes the material by business topic in Chinese Markdown. Use it to check existing processes, clarify requirements, or prepare material for a PRD. The raw transcript and quality report are retained so you can check important details against the recording.
+
+## Purchase approval example
+
+The interview, request form, and analysis below are fictional examples created for this README. They do not come from a real company or recording, and no speech recognition test was performed. The amounts and approval rules only illustrate the analysis approach.
+
+This example has been translated into English for the README. The Skill produces Chinese documents by default.
+
+### Input: simulated interview
+
+Each passage has an evidence ID so you can check the reasoning in the analysis that follows.
 
 ```text
-Install this Skill: https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes
+[S1 | Requester]
+A purchase request can contain multiple line items. For each item, we enter
+the item name, quantity, and estimated unit price including tax.
+The estimated total is the sum of "quantity × estimated unit price including tax"
+for all line items.
+
+[S2 | Department head]
+Let's confirm the rules for initial submissions first.
+Every request is reviewed by the department head.
+If the total is no more than CNY 5,000, it goes to Procurement after approval.
+If it exceeds CNY 5,000, it also needs a Finance review after department approval.
+Only after Finance approves it can it go to Procurement.
+
+[S3 | Finance]
+That initial-submission rule is confirmed. Exactly CNY 5,000 does not require
+a Finance review.
+A reason must be provided when a request is returned. The requester then
+revises and resubmits it.
+
+[S4 | Product manager]
+When a returned request is resubmitted, does it follow the original approval
+route, or do we recalculate the route based on the new amount?
+Who can change the quantity and unit price after submission?
+
+[S5 | Finance]
+Neither of those points has been decided today. We need to confirm them.
+
+[S6 | Procurement]
+The shared spreadsheet currently has only "Pending review", "Approved",
+and "Returned". When we see "Pending review", we cannot tell whether it is
+waiting for the department or Finance. We have to ask separately.
+```
+
+### Input: simulated request form A1
+
+Request ID: `DEMO-001`. Submission type: initial submission. Current status: "Pending review".
+
+| Purchase item | Quantity | Estimated unit price including tax (CNY) | Line amount (CNY) |
+| --- | ---: | ---: | ---: |
+| Conference headsets | 10 | 300 | 3,000 |
+| Desktop stands | 10 | 200 | 2,000 |
+| Total | — | — | 5,000 |
+
+### Output: excerpt from the business analysis
+
+This is an analysis excerpt based on the simulated material above, not a transcript generated directly by the scripts.
+
+```markdown
+# Purchase request and approval recording analysis (fictional example)
+
+## Approval process for initial submissions
+
+- Requester submits → Department head reviews.
+- Total ≤ CNY 5,000: after department approval → Procurement.
+- Total > CNY 5,000: department approval → Finance approval → Procurement.
+  Status: confirmed in the meeting. Evidence: S2, S3.
+
+## Checking request DEMO-001
+
+Estimated total = 10 × 300 + 10 × 200 = CNY 5,000.
+Under the confirmed rules for initial submissions, no Finance review is required.
+The current status is still "Pending review"; this does not mean the department
+has approved the request.
+Evidence: A1, S1, S2, S3.
+
+## Rules for returned requests
+
+A reason is required when returning a request. The requester revises and resubmits it.
+Status: confirmed in the meeting. Evidence: S3.
+The approval route after resubmission has not been confirmed.
+The initial-submission rules must not be assumed to apply.
+
+## Current problem
+
+"Pending review" does not show whether the department or Finance is handling
+the request. Someone has to ask separately.
+Evidence: S6.
+
+## Open questions
+
+- After a returned request is resubmitted, should the approval route be
+  recalculated using the new amount? Evidence: S4, S5.
+- Who may change the quantity and unit price after submission, and under
+  what conditions? Evidence: S4, S5.
+
+## Proposed system changes
+
+Consider adding a "Current handling role" field, or separate statuses for
+department review and Finance review.
+This is an analysis suggestion addressing the problem in S6.
+It still needs confirmation from the business team.
+```
+
+The example preserves the amount threshold, the scope of the rules, and the evidence references. Resubmission rules and editing permissions remain open questions because the source material has not settled them.
+
+## Why I built this
+
+Business discussions rarely follow the order of a requirements document. Someone explains an approval step, then adds how a field is calculated. An exception leads to a discussion about actions in another system. A recording preserves what was said, but writing requirements still means working out how those details fit together.
+
+I want to know who starts a task, where the data goes, what causes a status change, and who handles a problem. Those details affect pages, permissions, business rules, and acceptance criteria.
+
+This Skill organizes the material around those questions. The product manager and business team still need to agree on the solution.
+
+## Where it helps
+
+| Work | Material it can organize |
+| --- | --- |
+| Business interviews led by a product manager | Existing processes, participating roles, business problems, requests raised in the meeting, and follow-up questions |
+| Checking fields and calculation rules | Field meanings, data sources, calculations, applicable conditions, exceptions, and maintenance responsibilities |
+| Mapping handoffs for implementation or delivery | Information passed between teams, systems involved, status changes, permission boundaries, and exception handling |
+| Follow-up conversations on the same topic | Updates to existing notes, marked additions, and checks for open questions that now have answers |
+
+## How the analysis works
+
+Recording → Local transcription and quality checks → Agent analysis with attachments → Chinese Markdown → Human review
+
+The local scripts recognize speech and save the transcription evidence. The Agent then reads those files and organizes scattered discussion under the relevant business topics. Screenshots help check pages, fields, and states; spreadsheets help check formulas, enumerated values, and mappings.
+
+Disagreements between sources are retained. Corrections to important terms need to be traceable to a timestamp or a location in an attachment. Confirmed conclusions, tentative ideas, proposed system changes, and open questions are labeled separately.
+
+Running the transcription scripts alone therefore produces transcript and quality files. The Agent performs the subsequent work of writing the business analysis Markdown.
+
+## Quick start
+
+You need an Agent that can load Skills, read local files, and run scripts, plus Python 3.10–3.12. Installing dependencies requires an internet connection. The recognition model is usually downloaded during the first transcription.
+
+### Ask your Agent to help install it
+
+Send this to an Agent that can access GitHub and use a terminal:
+
+```text
+Install this Skill:
+https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes
 
 First, review the installation instructions, check the Python environment,
 and find out how this Agent loads Skills.
-Install the complete Skill folder in a location this Agent recognizes,
-and set up the local transcription environment.
+Keep the complete Skill folder and set up the local transcription environment.
 If a Skill with the same name already exists, compare the files first.
 Do not overwrite my changes.
 Run the self-check when finished. Report the actual results and whether
 I need to reload the Skill.
 ```
 
-You can also download or clone this repository first and replace the URL with `<local-repository-path>/skills/business-audio-minutes`. Business Audio Analysis is the project name; the Skill identifier used for installation and invocation remains `business-audio-minutes`.
+`Business Audio Analysis` is the project name. The identifier used for installation and invocation remains `business-audio-minutes`. Copying only `SKILL.md` is not enough; keep `scripts/` and `references/` too.
 
-Python 3.10–3.12 is recommended. Installing dependencies requires an internet connection, and the recognition model is usually downloaded during the first transcription. Whether the Agent can install it for you depends on its tools and permissions. You can also follow the [manual installation steps](#manual-installation) below.
+Automatic installation and activation depend on the Agent's tools, permissions, and Skill-loading mechanism. If the Skill does not load automatically, use that Agent's Skill selector or explicit invocation method.
 
-Keep the entire Skill folder. Copying only `SKILL.md` leaves out the transcription scripts and reference documents.
+### Start an analysis
 
-## What it looks for
-
-Use it for business interviews, requirements discussions, or research into workflows across teams. You can also add follow-up recordings to existing notes. The analysis follows the questions a product manager needs to resolve:
-
-| Focus | What the notes cover |
-| --- | --- |
-| Business processes | What starts a process, its steps, when it ends, and how exceptions are handled |
-| Roles and handoffs | Who initiates, maintains, and approves work, and what information passes between roles |
-| Fields and rules | Field definitions, data sources, calculations, applicable conditions, and exceptions |
-| Systems and permissions | Which system handles each part, and which roles can view or act on it |
-| Current problems | Steps that require repeated clarification or manual relays, and requests raised in the meeting |
-| Conclusions and follow-up | What is confirmed, what is tentative, and what needs more evidence or another conversation |
-
-Screenshots help verify pages, fields, and states. Spreadsheets help verify formulas, enumerated values, and relationships between fields. When the recording and attachments disagree, the notes retain that discrepancy instead of choosing an answer just to make the document read smoothly.
-
-### A simple example
-
-This is a fictional example of how information is organized, not an actual transcription result. It is shown in English for this README; the Skill produces Chinese notes by default.
-
-Suppose the meeting establishes the following:
-
-> Everyone agrees that sales enters the order and a supervisor reviews it. Urgent orders are still announced in the group chat; there is no flag in the system. Whether to add a separate entry point for urgent orders is left for a later discussion.
-
-The notes would separate the current process from proposed changes, for example:
-
-```markdown
-### Business process
-
-Sales enters the order → Supervisor reviews it. (Confirmed in the meeting)
-
-### Current problem
-
-Urgent orders are announced through group messages, with no corresponding
-flag in the system. (Confirmed in the meeting)
-
-### Open questions
-
-- Is a separate entry point needed for urgent orders? No decision was made.
-- If urgent orders are supported, who can flag them, and how is their
-  status updated when processing is complete?
-
-### Proposed system changes
-
-Assess whether adding an urgent-order field to the existing order page
-would meet the need.
-This is an analysis suggestion, not a requirement confirmed by the business team.
-```
-
-Permissions, amounts, and calculation rules that are unclear in the source material remain open questions. The Skill does not fill them in to make the requirements appear complete.
-
-## Usage
-
-After installing and loading the Skill, provide a recording and describe what you want to understand.
-
-A business interview:
+Once the Skill is loaded, provide the recording and relevant attachments, then describe what you need to understand:
 
 ```text
-Use business-audio-minutes to analyze this business interview recording
+Use business-audio-minutes to analyze this business recording
 from a product manager's perspective.
-Document the current process, responsibilities, business rules, and problems.
-Write the Markdown notes in Chinese.
-Keep confirmed conclusions, analysis suggestions, and open questions separate.
+Use the attachments to document processes, responsibilities, field rules,
+system boundaries, and current problems. Write the Markdown in Chinese.
+Keep confirmed meeting conclusions, analysis suggestions, and open questions
+separate. Retain the raw transcript for reference.
 ```
 
-A recording with screenshots and spreadsheets:
+For your first run, start with a short recording. Check the transcription and business terminology, then verify that the analysis stays faithful to the material.
 
-```text
-Use this recording, the page screenshots, and the spreadsheet to document
-field definitions, calculation rules, and the roles responsible for maintenance.
-Check handoffs between roles, exception handling, and permission boundaries.
-List disagreements between the sources separately; do not reconcile them
-without confirmation. Write the notes in Chinese.
+### Manual installation
+
+Place the complete `skills/business-audio-minutes/` folder in your Agent's Skill directory, or load it through the Agent's local Skill import feature. Then open a terminal in that Skill folder.
+
+macOS / Linux:
+
+```bash
+bash scripts/install.sh --no-copy
 ```
 
-A follow-up interview on the same topic:
+Windows PowerShell:
 
-```text
-This recording follows up on the previous research. Update the existing notes.
-Mark the additions, check which open questions now have answers,
-and retain the raw transcript for reference. Keep the notes in Chinese.
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\install.ps1 --no-copy
 ```
 
-Automatic activation through natural language depends on the Agent's Skill-loading mechanism. If it does not load automatically, use the Agent's Skill selector or explicit invocation method.
+The installer creates an isolated Python environment, installs dependencies, and runs a self-check. `--no-copy` skips the default Skill-copying step; it does not find another Agent's Skill directory for you.
 
-## What you get
+For the default Codex installation, run the same commands from the repository's Skill folder without `--no-copy`. Back up any existing Skill with the same name first: the default installation replaces the entire target directory and does not preserve personal changes. `--no-copy` skips that directory replacement.
 
-The final output is a Chinese business audio analysis document in Markdown. It covers processes, detailed discussions, roles and permissions, field rules, current problems, suggestions, and open questions. Sections without supporting material are omitted or shortened. The notes can support requirements clarification and later PRD work. This English README translates the usage instructions; it does not mean the Skill has been adapted for English output.
+The core transcription scripts do not depend on the Codex SDK or require Codex to be installed. The current version still stores configuration and its runtime environment under `~/.codex`, with output in `~/Documents/Codex/business-audio-minutes` by default. Other Agents need permission to access those directories and run the local scripts.
 
-The raw transcription is retained, including timestamped text, raw recognition JSON, and a quality report, so you can check the recording. Follow-up material on the same topic can update the original notes. If a notes directory is configured, the Skill can also copy the Markdown there and verify that the files match.
+See the [installation guide](https://github.com/nicoleyang959/business-audio-analysis/blob/main/skills/business-audio-minutes/INSTALL.md) (in Chinese) for detailed steps. Its examples currently use the default Codex paths.
 
-See the [notes structure reference](skills/business-audio-minutes/references/minutes_structure.md) (in Chinese) for the full output conventions.
+## Files you get
 
-## What is free
+| Output | Created by | Purpose |
+| --- | --- | --- |
+| `<录音名>_transcript.txt` | Local transcription scripts | Timestamped transcript for locating the original speech |
+| `<录音名>_raw.json` | Local transcription scripts | Raw recognition results |
+| `<录音名>_quality.json` | Local transcription scripts | Recognition quality indicators to help identify content that needs checking |
+| Chinese business recording analysis `.md` | Agent | Processes, rules, problems, suggestions, and open questions organized by business topic |
+
+`<录音名>` means the recording name. It is sanitized for use in a filename, so the actual output name may differ slightly from the input name. There is no mandatory filename for the analysis document. Sections are shortened or omitted according to the material, without inventing content to fill the structure.
+
+Follow-up conversations on the same topic can update the original notes. If you configure a notes directory, the Skill can also copy the Markdown there and verify that the files match. That option is off by default.
+
+## Cost and privacy
 
 The Skill instructions and included scripts are provided free of charge. Local transcription uses MLX Whisper or faster-whisper. You do not need to buy cloud speech recognition credits or configure a speech recognition service key.
 
-Agent subscriptions and model API calls are billed separately by the services you use. Transcription uses your own compute, disk space, and electricity. The initial dependency and model downloads require an internet connection. This project does not provide free hosted compute or model services.
+Agent subscriptions and model API calls are billed separately by the services you use. Transcription uses your own compute, disk space, and electricity. This project does not provide hosted compute or model services.
 
-## Before you use it
+The included transcription scripts process recordings on your computer. They do not upload audio or fall back to cloud speech recognition if recognition fails. Whether the Agent sends transcripts or attachments to a cloud service depends on your Agent and model configuration. Local transcription does not make the entire analysis workflow offline.
 
-The included transcription scripts process recordings locally. They do not upload audio or fall back to cloud speech recognition if local recognition fails. Whether the Agent sends transcripts or attachments to a cloud service depends on your Agent and model configuration. Local transcription does not make the entire analysis workflow offline.
+Quality indicators do not prove that the transcript is accurate or complete. Names, amounts, dates, formulas, permissions, and the scope of business rules still need to be checked against the original material. Instructions found inside source material do not authorize actions.
 
-Recognition quality indicators help flag possible problems; they are not proof of accuracy. Names, amounts, dates, formulas, and the scope of business rules still need to be checked against the original material. Terminology is checked only against the current sources and your corrections, without assuming company or industry names. Instructions found inside source material do not authorize actions.
+## Current version and verification
 
-### Platform verification
+The repository contains general-purpose Skill instructions, installation and transcription scripts, and reference documents. It has no standalone web upload service and does not include model weights or real business recordings.
 
-The table reflects the verification recorded in the current package. Providing platform-specific code and installers does not mean each platform has been tested on a real machine.
+The table below reflects the verification recorded in the current package. The fictional example in this README is not test evidence.
 
 | Environment | Default recognition backend | Verification recorded |
 | --- | --- | --- |
@@ -150,38 +254,14 @@ The table reflects the verification recorded in the current package. Providing p
 | Windows | faster-whisper | Installation script provided; not tested on Windows |
 | Linux | faster-whisper | Installation script provided; not tested on Linux |
 
-The faster-whisper CPU path has been tested with a short recording on Apple Silicon macOS. That does not replace testing on the other platforms. Skill loading and local execution permissions must also be verified for each Agent environment.
+The faster-whisper CPU path has been tested with a short recording on Apple Silicon macOS. That does not replace testing on the other platforms. Skill loading and local execution permissions must also be verified in each Agent environment.
 
-## Manual installation
+The Skill produces Chinese documents by default. Its current outputs are transcripts, quality files, and Markdown organized by the Agent. It does not promise automatic Word or PDF generation, or a complete PRD ready for implementation.
 
-1. Place the complete `skills/business-audio-minutes/` folder from this repository in your Agent's Skill directory, or load it through the Agent's local Skill import feature.
-2. Open a terminal in that Skill folder and run the command for your platform.
+## Documentation and feedback
 
-   macOS / Linux:
+- [Skill instructions](https://github.com/nicoleyang959/business-audio-analysis/blob/main/skills/business-audio-minutes/SKILL.md) (in Chinese): processing order and analysis requirements.
+- [Notes structure](https://github.com/nicoleyang959/business-audio-analysis/blob/main/skills/business-audio-minutes/references/minutes_structure.md) (in Chinese): section layout and evidence conventions.
+- [Troubleshooting](https://github.com/nicoleyang959/business-audio-analysis/blob/main/skills/business-audio-minutes/references/troubleshooting.md) (in Chinese): installation, model downloads, recognition, and copying notes.
 
-   ```bash
-   bash scripts/install.sh --no-copy
-   ```
-
-   Windows PowerShell:
-
-   ```powershell
-   Set-ExecutionPolicy -Scope Process Bypass
-   .\scripts\install.ps1 --no-copy
-   ```
-
-3. The installer creates an isolated Python environment, installs dependencies, and runs a self-check. Reload the Skill using your Agent's method, then test transcription with a short recording.
-
-`--no-copy` only skips the default Skill-copying step. It does not locate another Agent's Skill directory for you. For the default Codex installation, run the same commands from the repository's Skill folder without `--no-copy`.
-
-If a Skill with the same name is already installed, back it up first. The default installation replaces the entire target directory and does not preserve personal changes. `--no-copy` skips this directory replacement.
-
-The core transcription scripts do not depend on the Codex SDK or require Codex to be installed. The current version still stores configuration and its runtime environment under `~/.codex`, with output in `~/Documents/Codex/business-audio-minutes` by default. Other Agents need permission to access these directories and run the local scripts.
-
-See the [installation guide](skills/business-audio-minutes/INSTALL.md) (in Chinese) for Python setup, model downloads, directory configuration, and removal. Its examples currently use the default Codex paths. For recognition or installation errors, see [troubleshooting](skills/business-audio-minutes/references/troubleshooting.md) (in Chinese).
-
-## Repository contents
-
-This repository contains the [Skill instructions](skills/business-audio-minutes/SKILL.md) (in Chinese), installation and transcription scripts, and reference documents. It does not include model weights or real business materials. Copying notes to a configured notes directory is disabled by default.
-
-Do not commit recordings, internal screenshots, business spreadsheets, generated notes, personal configuration, or access credentials to a public repository. `.gitignore` can help exclude them, but you still need to review the actual file list before committing.
+When reporting an issue, include your operating system, Python version, Agent, recognition backend, and redacted error details. Do not publicly upload real recordings, internal screenshots, business spreadsheets, generated notes, personal configuration, or credentials.
