@@ -8,9 +8,9 @@ Have your Agent review business recordings from a product manager's perspective,
 
 The Skill and local transcription are free, with no per-minute transcription fees. Agent subscriptions and model calls are billed separately.
 
-![Business Audio Analysis cover concept](assets/cover.png)
+![Business Audio Analysis Skill workflow: source materials, local transcription, business analysis and evidence checks](assets/overview-en.png)
 
-*The cover is an AI-generated concept illustration, not a product interface or a screenshot from a test run.*
+*AI-generated illustration of the Skill workflow, not a product interface or a screenshot from a test run.*
 
 [Quick overview](#quick-overview) · [Example](#purchase-approval-example) · [Quick start](#quick-start) · [Cost and privacy](#cost-and-privacy) · [View the Skill](https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes)
 
@@ -265,3 +265,4 @@ The Skill produces Chinese documents by default. Its current outputs are transcr
 - [Troubleshooting](https://github.com/nicoleyang959/business-audio-analysis/blob/main/skills/business-audio-minutes/references/troubleshooting.md) (in Chinese): installation, model downloads, recognition, and copying notes.
 
 When reporting an issue, include your operating system, Python version, Agent, recognition backend, and redacted error details. Do not publicly upload real recordings, internal screenshots, business spreadsheets, generated notes, personal configuration, or credentials.
+

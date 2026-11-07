@@ -8,9 +8,9 @@
 
 Skill 与本地转写免费，不按录音分钟收费。Agent 订阅和模型调用费用另计。
 
-![Business Audio Analysis 封面概念图](assets/cover.png)
+![业务录音分析技能工作流程：材料输入、本地转写、业务分析与证据核对](assets/overview-zh.png)
 
-*封面是 AI 生成的概念配图，不是产品界面或实测截图。*
+*技能工作方式示意图，由 AI 生成；不是产品界面或实测截图。*
 
 [快速了解](#快速了解) · [示例](#采购审批示例) · [快速开始](#快速开始) · [免费与隐私](#免费与隐私) · [查看 Skill](https://github.com/nicoleyang959/business-audio-analysis/tree/main/skills/business-audio-minutes)
 
@@ -242,3 +242,4 @@ Skill 默认生成中文文档。当前产物是转写、质量文件和 Agent �
 - [故障排查](https://github.com/nicoleyang959/business-audio-analysis/blob/main/skills/business-audio-minutes/references/troubleshooting.md)：安装、模型下载、识别和笔记复制问题。
 
 反馈问题时，请说明操作系统、Python 版本、Agent、识别后端和经过脱敏的报错。不要公开上传真实录音、内部截图、业务表格、生成的纪要、个人配置或凭据。
+
